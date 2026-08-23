@@ -1,0 +1,58 @@
+# ============================================================
+# Secrets — never commit
+# ============================================================
+.env
+.env.*
+*.pem
+*.key
+
+# ============================================================
+# Obsidian: per-device UI/workspace state.
+# These record open tabs / pane layout for ONE window on ONE
+# device, so with Windows machines + iPad + iPhone + Android
+# all syncing the same vault, tracking them just means every
+# device fights every other device on every sync. Everything
+# else in .obsidian/ (settings, community-plugins.json, snippets,
+# plugin code + data) IS tracked on purpose, so every device ends
+# up with the same plugins/theme/settings automatically.
+# ============================================================
+.obsidian/workspace.json
+.obsidian/workspace.json-2
+.obsidian/workspace-mobile.json
+.obsidian.mobile/workspace-mobile.json
+
+# Local-only state for the Git plugin (local repo path / askpass helper)
+.obsidian/plugins/obsidian-git/data.json
+.obsidian/plugins/obsidian-git/obsidian_askpass.sh
+
+# Native per-platform helper binaries some plugins download (Windows-only,
+# huge, and pointless to sync to mobile — crashed Obsidian Git on Android
+# trying to clone a 35MB .exe. Plugins re-fetch these locally as needed.
+.obsidian/plugins/obsidian-zotero-desktop-connector/pdfannots2json.exe
+.obsidian/plugins/**/*.exe
+.obsidian/plugins/**/*.dll
+.obsidian/plugins/**/*.dylib
+
+# Obsidian Git plugin bookkeeping
+.obsidian-git-data
+/conflict-files-obsidian-git.md
+
+# Obsidian trash
+.trash/
+
+# ============================================================
+# OS junk files (Windows / macOS / iOS "On My iPhone" storage)
+# ============================================================
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# ============================================================
+# Misc vault hygiene
+# ============================================================
+null*
