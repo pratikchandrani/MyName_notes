@@ -6,7 +6,8 @@
 - More technical setup guide - https://www.emilevankrieken.com/blog/2025/academic-obsidian/
 - Concepts of Zettelkasten - https://www.aidanhelfant.com/3-days-to-starting-a-zettelkasten-in-obsidian-as-a-student-part-2/ and https://www.aidanhelfant.com/3-days-to-starting-a-zettelkasten-in-obsidian-as-a-student-part-1/
 - Obsidian note example for a biological course - https://sparkl.me/blog/ap/obsidian-zettelkasten-mastering-ap-concepts-with-smart-notes/
-- 
+- Obsidian Zotero integration - https://www.youtube.com/watch?v=hRCiuycpAIU
+- Obsidian Excalidraw - https://www.youtube.com/watch?v=P_Q6avJGoWI
 
 ## Setup Git and clone the template
 - Make a free account on GitHub, visit this URL: https://github.com/pratikchandrani/MyName_notes/ and click on fork at top right. 
@@ -157,3 +158,98 @@ Same steps as iPad, Android-specific notes only:
 ## 6. Security note
 
 PATs are scoped to just this one repo with read/write content access — still, treat each one as a password. If a device is lost or a token leaks, revoke it individually from GitHub → Settings → Developer settings → Personal access tokens, and create new one.
+
+#Concepts/ObsidianZotero #Concepts/Obsidian #Concepts/Zettelkasten
+# Zotero-Obsidian workflow: PDF notes and highlights
+
+Full guideline: [[zotero_obsidian_workflow_tutorial.pdf]]
+
+This connects Zotero (bibliography manager + PDF reader/annotator) to Obsidian (the vault) so that highlighting a paper turns directly into a linked, searchable note — no manual copy-paste of quotes.
+
+## 1. Read and annotate in Zotero with a color-coded taxonomy
+
+All source metadata (title, authors, links, DOIs, PDFs) lives in Zotero. Read and highlight inside Zotero's own PDF reader (dark mode available). Keep highlight colors consistent — they later map to CSS styles/templates on import into Obsidian:
+
+| Color | Category | Use for |
+|---|---|---|
+| Red | Skeptical / Disagree | Debunked, questionable, or disputed claims |
+| Yellow | Core Thesis / Highlight | Claims central to the author's argument; good for summaries |
+| Green | Agreed / Direct Quotes | Claims you agree with and intend to cite directly |
+| Blue | Connections / Outside Ideas | Claims citing other sources or linking to outside readings |
+| Purple | Chapter / Section Headings | Headers, to keep structural context on export |
+| Pink | Confusion / Active Questions | Unclear sections or open questions to revisit |
+| Orange | Definitions | Core terminology — useful for lit reviews and flashcards |
+
+## 2. Plugins to install
+
+| Plugin | Where | Role |
+|---|---|---|
+| Better BibTeX | Zotero add-on | Generates standardized citekeys (e.g. `AuthorShortTitleDate`) used for file naming |
+| Zotero Integration | Obsidian community plugin (by mgmeyers) | Core bridge — queries Zotero, runs the import template, pulls in annotations |
+| Highlighter | Obsidian community plugin | Defines highlight colors in Obsidian CSS matching the Zotero palette |
+| Templater | Obsidian community plugin | Template/variable interpolation engine used by the import template |
+
+Setup notes:
+- In Highlighter settings, make the color names match the Zotero taxonomy (red/yellow/green/blue/purple/orange/pink) so CSS parsing doesn't break on export.
+- In Zotero Integration, create an Import Format called "Source Notes" with Output Path `Source Notes/{{citekey}}.md`, and point the image output path at the same folder (for cropped PDF diagrams). Bind a hotkey (e.g. `Ctrl+Shift+Z`) to trigger the import.
+
+## 3. The import template (Nunjucks)
+
+The Zotero Integration plugin renders a Nunjucks template (stored e.g. at `templates/Source Notes.md`) to build each note's frontmatter, persistent notes section (preserved across re-imports), and a loop over annotations that renders highlights (colored spans linking back to the PDF page in Zotero) and comments. This is what makes re-running the import non-destructive — anything you write under "Persistent Notes" survives the next sync.
+
+## 4. From source notes to atomic (Zettelkasten) notes
+
+Don't leave literature archived by source — that's a "sand castle" that stops being useful once the paper is written. After importing a Source Note, decompose its arguments into standalone **atomic notes**, one per concept (see [[New Student Note-Taking Guide]] and the Zettelkasten section above in this note). Before creating a new atomic note, search the vault for an existing one on that concept and extend it — e.g. one `[[culture]]` note collecting how multiple authors define the term, rather than a separate note per paper. Link notes with `[[note_name|displayed text]]`.
+
+## 5. Visualizing the graph
+
+- **Local Graph** (top-right menu → Open Linked View → Open Local Graph): shows 1-depth connections from the active note — good for spotting immediate links between concepts.
+- **Obsidian Canvas**: an infinite whiteboard replacing the physical index-card/string method — drag Source Notes, Atomic Notes, and diagrams onto it, draw arrows, cluster, and zoom out for a chapter/dissertation outline.
+
+## 6. Writing phase: citations in Word/Google Docs
+
+Zotero's plugin adds a citation ribbon to Word (and works in Google Docs) for inserting citations in any style (APA, Chicago, etc.) and generating a one-click, complete "Works Cited" list from everything cited inline — avoiding the missed-citation errors that come from managing bibliographies by hand.
+
+#Concepts/ObsidianExcalidraw #Concepts/Obsidian
+# Excalidraw in Obsidian: visual note-taking
+
+Full guideline: [[obsidian-excalidraw-tutorial.pdf]]
+
+Excalidraw turns the vault into an infinite-canvas visual thinking tool on top of regular notes — useful for mind maps, diagramming experiments/pipelines, and annotating PDFs by hand.
+
+## 1. Core drawing and alignment
+
+- Use the toolbar hotkeys for rectangles, ellipses, lines, and arrows.
+- **Snap to Objects** auto-aligns and sizes shapes relative to nearby elements for clean schematics.
+- **Set Grid** (Script Store) customizes grid size/color/thickness.
+- **Stencil Library**: right-click → "Add to Library" to save assets locally; browse and import community stencils.
+- **Tray Mode** hides property panels to maximize canvas space; **Normal Mode** gives the full excalidraw.com layout.
+
+## 2. Linking drawings into the vault
+
+- **Vault Note Linking**: right-click a shape → "Insert Link to File" to connect it to an Obsidian note; Ctrl/Cmd-hover shows an interactive preview popup.
+- **Block Reference Transclusion**: pull specific text blocks from markdown notes onto the canvas — text and drawing stay in sync.
+- **Back-of-the-Note Cards**: a level-1 header inside the Excalidraw file is the "back" of that drawing — edit tables/templates/scripts there in markdown view.
+- **Interactive Frame Embedding**: drag-and-drop a URL to embed a live, resizable web frame (hold Shift while resizing to lock aspect ratio).
+
+## 3. Diagramming, style, and automation
+
+- **Mermaid → vector**: convert Mermaid code to editable shapes; with an OpenAI API key, the "Text-to-Diagram" script can auto-generate flowcharts/sequence diagrams.
+- **Architectural style** (for formal figures): edges "Sharp", stroke slop "Architect", font "Normal" — drops the hand-drawn look.
+- **Deconstruct Selected Elements** script: moves a selection into a separate file and replaces it with an embedded link — useful for splitting a large diagram.
+- **Excalidraw Automate (EA)**: open dev console (`Ctrl/Cmd+Shift+I`) to script repetitive canvas tasks in JS.
+
+## 4. PDF annotation and rich media
+
+- **PDF Annotation Canvas**: import a PDF as page images and freely circle, highlight, and hand-annotate directly on the infinite canvas (complementary to Zotero's own PDF annotation — see [[#Concepts/ObsidianZotero]] above — useful when you want free-form spatial annotation rather than linear highlight extraction).
+- **Source-Linked Crop & Mask**: crop a chart/section out of an imported PDF; the crop keeps a double-clickable link back to the exact source page.
+- **Web Image Drag-and-Drop**: images dragged from a browser stay linked to their original URL.
+- **Custom Fonts & Highlighters**: register `.ttf` files as a fourth default font; configure highlighter/pen presets by double-clicking the toolbar pen icons.
+
+## 5. Script Store extras
+
+- **Slideshow Presentation**: draw arrows to define frame order/bounds and get an instant slideshow.
+- **Split Ellipse / Boolean Operations / Repeat Elements**: cut shapes with a line, add/subtract overlapping shapes, batch-duplicate with size/rotation transforms.
+- **Select Elements of Type**: narrow the current selection to one element type (e.g. arrows only) to restyle in bulk.
+- **Palette Loader**: load a markdown file of hex codes to keep consistent colors across the vault.
+- **Invert Colors**: dark canvas background while preserving high-contrast palette, for night sessions.
